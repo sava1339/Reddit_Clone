@@ -4,7 +4,7 @@ const sequelize = require('../db');
 const User = sequelize.define('user',{
     id:{type:DataTypes.INTEGER,unique:true,autoIncrement:true,allowNull:false,primaryKey:true},
     karma:{type:DataTypes.INTEGER,allowNull:false},
-    avatarLink:{type:DataTypes.STRING,unique:true},
+    avatarLink:{type:DataTypes.STRING,unique:true,allowNull:true},
     password:{type:DataTypes.STRING,unique:true,allowNull:false},
     login:{type:DataTypes.STRING,unique:true,allowNull:false},
     username:{type:DataTypes.STRING,allowNull:false}

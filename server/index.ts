@@ -10,7 +10,8 @@ const models = require('./models/models');
 
 const app = express();
 app.use(cors());
-app.use('api',router);
+app.use(express.json());
+app.use('/api',router);
 
 
 app.use(errorHandler);
