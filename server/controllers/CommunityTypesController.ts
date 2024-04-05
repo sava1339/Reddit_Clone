@@ -1,12 +1,14 @@
 import { ApiError } from "../apiError/apiError";
-const {Post} = require('../models/models');
-class PostController{
+
+const {CommunityTypes} = require('../models/models');
+
+class CommunityTypesController{
     async create(req:any,res:any,next:any){
         try {
-            const {dataLink,userId,communityId} = req.body;
-            !dataLink || !userId || !communityId && next(ApiError.bedRequest('Не все поля заполнены!'));
-            const post = await  Post.create({dataLink,userId,communityId});
-            return res.json(post);
+            const {communityId} = req.body;
+            !communityId && next(ApiError.bedRequest('Не все поля заполнены!'));
+            const communityTypes = await  CommunityTypes.create({communityId});
+            return res.json(communityTypes);
         } catch (e) {
             next(ApiError.internal('Непредвидимая ошибка'));
         }
@@ -15,24 +17,25 @@ class PostController{
         try {
             const {id} = req.params;
             !id && next(ApiError.bedRequest('Не введен айди'));
-            const post = await Post.destroy({where:{id}});
-            return res.json(post);
+            const communityTypes = await CommunityTypes.destroy({where:{id}});
+            return res.json(communityTypes);
         } catch (e) {
             next(ApiError.internal('Непредвидимая ошибка'));
         }
 
     }
-    async findAll(req:any,res:any,next:any){
+    async findOne(req:any,res:any,next:any){
         try {
             const {communityId} = req.params;
             !communityId && next(ApiError.bedRequest('Не введен айди'));
-            const post = await Post.findOne({where:{communityId}});
-            return res.json(post);
+            const communityTypes = await CommunityTypes.findOne({where:{communityId}});
+            return res.json(communityTypes);
         } catch (e) {
             next(ApiError.internal('Непредвидимая ошибка'));
         }
 
     }
+
 }
-module.exports = new PostController();
-export{}
+module.exports = new CommunityTypesController();
+export{};

@@ -26,7 +26,7 @@ const Comment = sequelize.define('comment',{
 const Saved = sequelize.define('saved',{
     id:{type:DataTypes.INTEGER,unique:true,autoIncrement:true,allowNull:false,primaryKey:true},
 });
-const PostSaved = sequelize.define('post-saved',{
+const PostSaved = sequelize.define('post_saved',{
     id:{type:DataTypes.INTEGER,unique:true,autoIncrement:true,allowNull:false,primaryKey:true},
 });
 const Post = sequelize.define('post',{
@@ -34,18 +34,32 @@ const Post = sequelize.define('post',{
     karma:{type:DataTypes.INTEGER,allowNull:false},
     dataLink:{type:DataTypes.STRING,unique:true,allowNull:false},
 });
-const ChatGroup = sequelize.define('chat-group',{
+const ChatGroup = sequelize.define('chat_group',{
     id:{type:DataTypes.INTEGER,unique:true,autoIncrement:true,allowNull:false,primaryKey:true},
     dataLink:{type:DataTypes.STRING,unique:true,allowNull:false},
     chatGroupUser:{type:DataTypes.BOOLEAN,allowNull:false},
 });
-const ChatFollower = sequelize.define('chat-follower',{
+const ChatFollower = sequelize.define('chat_follower',{
     id:{type:DataTypes.INTEGER,unique:true,autoIncrement:true,allowNull:false,primaryKey:true},
 });
-const ChatMessage = sequelize.define('chat-message',{
+const ChatMessage = sequelize.define('chat_message',{
     id:{type:DataTypes.INTEGER,unique:true,autoIncrement:true,allowNull:false,primaryKey:true},
     dataLink:{type:DataTypes.STRING,unique:true,allowNull:false},
 });
+
+const CommunityTypes = sequelize.define('community_types',{
+    id:{type:DataTypes.INTEGER,unique:true,autoIncrement:true,allowNull:false,primaryKey:true}
+})
+const Type = sequelize.define('type',{
+    id:{type:DataTypes.INTEGER,unique:true,autoIncrement:true,allowNull:false,primaryKey:true},
+    name:{type:DataTypes.STRING,unique:true,allowNull:false}
+})
+
+Community.hasOne(CommunityTypes);
+CommunityTypes.belongsTo(Community);
+
+CommunityTypes.hasMany(Type);
+Type.belongsTo(CommunityTypes);
 
 ChatGroup.hasMany(ChatFollower);
 ChatFollower.belongsTo(ChatGroup);
@@ -67,6 +81,9 @@ Follower.belongsTo(User);
 
 User.hasMany(Post);
 Post.belongsTo(User);
+
+User.hasMany(ChatGroup);
+ChatGroup.belongsTo(User);
 
 Community.hasMany(Follower);
 Follower.belongsTo(Community);
@@ -93,5 +110,7 @@ module.exports = {
     Post,
     ChatGroup,
     ChatFollower,
-    ChatMessage
+    ChatMessage,
+    CommunityTypes,
+    Type
 }

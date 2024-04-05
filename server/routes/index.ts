@@ -10,6 +10,8 @@ const ChatGroupRouter = require('./ChatGroupRouter');
 const ChatFollowerRouter = require('./ChatFollowerRouter');
 const ChatMessageRouter = require('./ChatMessageRouter');
 const CommunityRouter = require('./CommunityRouter');
+const CommunityTypesRouter = require('./CommunityTypesRouter');
+const TypeRouter = require('./TypeRouter');
 
 router.use('/user',UserRouter);
 router.use('/comment',CommentRouter);
@@ -21,6 +23,8 @@ router.use('/chat-follower',ChatFollowerRouter);
 router.use('/chat-message',ChatMessageRouter);
 router.use('/post',PostRouter);
 router.use('/community',CommunityRouter);
+router.use('/community-types',CommunityTypesRouter);
+router.use('/type',TypeRouter);
 
 module.exports = router;
 export{}
