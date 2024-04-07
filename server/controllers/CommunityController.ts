@@ -1,12 +1,37 @@
 import { ApiError } from "../apiError/apiError";
 const {Community} = require('../models/models');
+const fs = require('fs');
+const uuid = require('uuid');
+const path = require('path');
 
 class CommunityController{
     async create(req:any,res:any,next:any){
         try {
-            const {dataLink,userCommunity,userId} = req.body;
-            !dataLink || !userCommunity || !userId && next(ApiError.bedRequest('Не все поля заполнены!'));
-            const community = await Community.create({dataLink,userCommunity,userId});
+            const {userCommunity,description} = req.body;
+            const {avatarImage, headerImage} = req.files;
+
+            !description || !userCommunity || !req.user.id && next(ApiError.bedRequest('Не все поля заполнены!'));
+
+            const dataLink = uuid.v4();
+            const dataLinkPath = path.resolve(__dirname,'..','static','CommunityDataFolder',dataLink);
+            const dataLinkImagePath = dataLinkPath + '\\' + 'images';
+
+            if (!fs.existsSync(dataLinkPath)) {
+                fs.mkdirSync(dataLinkPath);
+                fs.mkdirSync(dataLinkImagePath);
+            }
+
+            fs.writeFileSync((dataLinkPath + '\\' + 'description') + '.txt', description);
+            if(avatarImage){
+                let imageAvatarName = 'Avatar.png';
+                await avatarImage.mv((dataLinkImagePath + '\\' + imageAvatarName));
+            }
+            if(headerImage){
+                let imageHeaderName = "Header.png";
+                await headerImage.mv((dataLinkImagePath + '\\' + imageHeaderName));
+            }
+
+            const community = await Community.create({dataLink,userCommunity,userId:req.user.id});
             return res.json(community);
         } catch (e) {
             next(ApiError.internal('Непредвидимая ошибка'));
@@ -16,9 +41,13 @@ class CommunityController{
         try {
             const {id} = req.params;
             !id && next(ApiError.bedRequest('Не введен айди!'));
-            const community = await Community.destroy({where:{id}});
-            return res.json(community);
+            const community = await Community.findOne({where:{id}});
+            const dataLinkPath = path.resolve(__dirname,'..','static','CommunityDataFolder',community.dataLink);
+            await fs.rmSync(dataLinkPath,{ recursive: true, force: true });
+            const communityDelete = await Community.destroy({where:{id}});
+            return res.json(communityDelete);
         } catch (e) {
+            console.log(e);
             next(ApiError.internal('Непредвидимая ошибка'));
         }
     }

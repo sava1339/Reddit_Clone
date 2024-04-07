@@ -6,10 +6,14 @@ const errorHandler = require('./middleware/ErrorHandlerMiddleware');
 const router = require('./routes/index');
 const db = require('./db');
 const models = require('./models/models');
+const fileUploader = require('express-fileupload');
+const path = require('path');
 
 
 const app = express();
 app.use(cors());
+app.use(fileUploader({}));
+app.use(express.static(path.resolve(__dirname,'static')));
 app.use(express.json());
 app.use('/api',router);
 
