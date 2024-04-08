@@ -2,6 +2,7 @@ import { ApiError } from '../apiError/apiError';
 const {User} = require('../models/models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+import {Request, Response, NextFunction} from 'express';
 
 const jwtGeneration = (id:number, login:string, password:string, username:string, avatarLink:string, karma:number) =>{
     return jwt.sign(
@@ -12,7 +13,7 @@ const jwtGeneration = (id:number, login:string, password:string, username:string
 }
 
 class UserController {
-    async registration(req:any, res:any,next:any) {
+    async registration(req:Request, res:Response,next:NextFunction) {
         try {
             const {login, password, username, avatarLink, karma} = req.body;
             !login || !password && next(ApiError.bedRequest('Некортеный email или пароль!'));

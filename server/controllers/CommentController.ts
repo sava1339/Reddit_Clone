@@ -1,8 +1,9 @@
 import { ApiError } from "../apiError/apiError";
 const {Comment} = require('../models/models');
+import {Request, Response, NextFunction} from 'express';
 
 class CommentController{
-    async create(req:any,res:any,next:any){
+    async create(req:Request,res:Response,next:NextFunction){
         try {
             const {userId,communityId,dataLink} = req.body;
             !userId || !communityId || !dataLink && next(ApiError.bedRequest('Не все поля заполнены!'));

@@ -3,14 +3,16 @@ const {Community} = require('../models/models');
 const fs = require('fs');
 const uuid = require('uuid');
 const path = require('path');
+import {Request, Response, NextFunction} from 'express';
+import { filesRequest, userRequest } from "../types/types";
 
 class CommunityController{
-    async create(req:any,res:any,next:any){
+    async create(req:Request,res:Response,next:NextFunction){
         try {
             const {userCommunity,description} = req.body;
-            const {avatarImage, headerImage} = req.files;
+            const {avatarImage,headerImage} = (req as filesRequest).files;
 
-            !description || !userCommunity || !req.user.id && next(ApiError.bedRequest('Не все поля заполнены!'));
+            !description || !userCommunity || !(req as userRequest).user.id && next(ApiError.bedRequest('Не все поля заполнены!'));
 
             const dataLink = uuid.v4();
             const dataLinkPath = path.resolve(__dirname,'..','static','CommunityDataFolder',dataLink);
@@ -31,7 +33,7 @@ class CommunityController{
                 await headerImage.mv((dataLinkImagePath + '\\' + imageHeaderName));
             }
 
-            const community = await Community.create({dataLink,userCommunity,userId:req.user.id});
+            const community = await Community.create({dataLink,userCommunity,userId:(req as userRequest).user.id});
             return res.json(community);
         } catch (e) {
             next(ApiError.internal('Непредвидимая ошибка'));

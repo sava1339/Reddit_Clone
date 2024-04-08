@@ -1,8 +1,9 @@
 import { ApiError } from "../apiError/apiError";
+import {Request, Response, NextFunction} from 'express';
 
 const {ChatMessage} = require('../models/models');
 class ChatMessageController{
-    async create(req:any,res:any,next:any){
+    async create(req:Request,res:Response,next:NextFunction){
         try {
             const {userId, chatGroupId, dataLink} = req.body;
             !userId || !chatGroupId || !dataLink && next(ApiError.bedRequest('Не все поля заполнены!'));

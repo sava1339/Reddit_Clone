@@ -1,8 +1,9 @@
 import { ApiError } from "../apiError/apiError";
 const {Saved} = require('../models/models');
+import {Request, Response, NextFunction} from 'express';
 
 class SavedController{
-    async create(req:any,res:any,next:any){
+    async create(req:Request,res:Response,next:NextFunction){
         try {
             const {userId} = req.body;
             !userId && next(ApiError.bedRequest('Не все поля заполнены!'));

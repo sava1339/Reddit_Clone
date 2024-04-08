@@ -1,7 +1,9 @@
 import { ApiError } from "../apiError/apiError";
 const {Post} = require('../models/models');
+import {Request, Response, NextFunction} from 'express';
+
 class PostController{
-    async create(req:any,res:any,next:any){
+    async create(req:Request,res:Response,next:NextFunction){
         try {
             const {dataLink,userId,communityId} = req.body;
             !dataLink || !userId || !communityId && next(ApiError.bedRequest('Не все поля заполнены!'));

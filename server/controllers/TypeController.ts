@@ -1,9 +1,10 @@
 import { ApiError } from "../apiError/apiError";
 
 const {Type} = require('../models/models');
+import {Request, Response, NextFunction} from 'express';
 
 class TypeController{
-    async create(req:any,res:any,next:any){
+    async create(req:Request,res:Response,next:NextFunction){
         try {
             const {communityTypesId, name} = req.body;
             !communityTypesId || !name && next(ApiError.bedRequest('Не все поля заполнены!'));

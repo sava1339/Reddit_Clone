@@ -1,8 +1,9 @@
 import { ApiError } from "../apiError/apiError";
 const {ChatGroup} = require('../models/models');
+import {Request, Response, NextFunction} from 'express';
 
 class ChatGroupController{
-    async create(req:any,res:any,next:any){
+    async create(req:Request,res:Response,next:NextFunction){
         try {
             let {dataLink,chatGroupUser,userId} = req.body;
             if(typeof userId == "string"){

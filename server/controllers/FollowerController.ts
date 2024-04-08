@@ -1,8 +1,10 @@
 import { ApiError } from "../apiError/apiError";
 const {Follower} = require('../models/models');
+import {Request, Response, NextFunction} from 'express';
+
 
 class FollowerController{
-    async create(req:any,res:any,next:any){
+    async create(req:Request,res:Response,next:NextFunction){
         try {
             const {communityId,userId} = req.body;
             !communityId || !userId && next(ApiError.bedRequest('Не все поля заполнены!'));

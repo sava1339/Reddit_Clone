@@ -1,6 +1,6 @@
 import * as process from "process";
 require('dotenv').config();
-const express = require('express');
+import express, {Express} from 'express';
 const cors = require('cors');
 const errorHandler = require('./middleware/ErrorHandlerMiddleware');
 const router = require('./routes/index');
@@ -10,7 +10,7 @@ const fileUploader = require('express-fileupload');
 const path = require('path');
 
 
-const app = express();
+const app: Express = express();
 app.use(cors());
 app.use(fileUploader({}));
 app.use(express.static(path.resolve(__dirname,'static')));

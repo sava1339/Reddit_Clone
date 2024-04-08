@@ -1,9 +1,10 @@
 import { ApiError } from "../apiError/apiError";
+import {Request, Response, NextFunction} from 'express';
 
 const {ChatFollower} = require('../models/models');
 
 class ChatFollowerController{
-    async create(req:any,res:any,next:any){
+    async create(req:Request,res:Response,next:NextFunction){
         try {
             const {userId,chatGroupId} = req.body;
             !userId || !chatGroupId && next(ApiError.bedRequest('Не все поля заполнены!'))
