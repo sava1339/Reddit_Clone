@@ -33,3 +33,8 @@ input{
 .search_content{
     border-radius: 0 0 1em 1em;
 }
+html{
+    color-scheme: dark light;
+  &[data-theme=light] { color-scheme: light; }
+  &[data-theme=dark] { color-scheme: dark; }
+}

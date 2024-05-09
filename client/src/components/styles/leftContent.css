@@ -1,0 +1,7 @@
+.category_item:hover{
+    --tw-border-opacity: 1;
+    background: #1c253b;
+}
+.category_active{
+    background: #28354f;
+}
