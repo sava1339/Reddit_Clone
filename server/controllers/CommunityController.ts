@@ -32,8 +32,9 @@ class CommunityController{
                 let imageHeaderName = "Header.png";
                 await headerImage.mv((dataLinkImagePath + '\\' + imageHeaderName));
             }
+            const userCommunityBool = userCommunity === "true" ? true : false
 
-            const community = await Community.create({dataLink,userCommunity,userId:(req as userRequest).user.id});
+            const community = await Community.create({dataLink,userCommunity: userCommunityBool,userId:(req as userRequest).user.id});
             return res.json(community);
         } catch (e) {
             next(ApiError.internal('Непредвидимая ошибка'));
@@ -44,18 +45,21 @@ class CommunityController{
             const {id} = req.params;
             !id && next(ApiError.bedRequest('Не введен айди!'));
             const community = await Community.findOne({where:{id}});
+            if(community.userId != req.user.id){
+                return res.status(401).json({message: 'Не подтверженн создатель сообщества!'});;
+            }
             const dataLinkPath = path.resolve(__dirname,'..','static','CommunityDataFolder',community.dataLink);
             await fs.rmSync(dataLinkPath,{ recursive: true, force: true });
             const communityDelete = await Community.destroy({where:{id}});
             return res.json(communityDelete);
         } catch (e) {
-            console.log(e);
             next(ApiError.internal('Непредвидимая ошибка'));
         }
     }
     async findOne(req:any,res:any,next:any){
         try {
             const {id} = req.params;
+            console.log(id);
             !id && next(ApiError.bedRequest('Не введен айди!'));
             const community = await Community.findOne({where:{id}});
             return res.json(community);

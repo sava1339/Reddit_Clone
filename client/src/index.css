@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*{
+    margin: 0;
+    padding: 0;
+}
+input{
+    outline: 0 !important;
+}
+.main_search:hover{
+    --tw-bg-opacity: 1;
+    background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+.main_search:hover input{
+    --tw-bg-opacity: 1;
+    background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+.hover_effect:hover{
+    cursor: pointer;
+}
+.qrcode_button:hover{
+    --tw-bg-opacity: 1;
+    background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+.login_button:hover{
+    --tw-bg-opacity: 1;
+    background-color: rgb(190 20 20 / var(--tw-bg-opacity));
+}
+.main_search{
+    z-index: 99999;
+}
+.search_content{
+    border-radius: 0 0 1em 1em;
+}

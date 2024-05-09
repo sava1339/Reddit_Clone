@@ -4,7 +4,7 @@ const sequelize = require('../db');
 const User = sequelize.define('user',{
     id:{type:DataTypes.INTEGER,unique:true,autoIncrement:true,allowNull:false,primaryKey:true},
     karma:{type:DataTypes.INTEGER,allowNull:false},
-    avatarLink:{type:DataTypes.STRING,unique:true,allowNull:true},
+    avatarLink:{type:DataTypes.STRING,allowNull:false},
     password:{type:DataTypes.STRING,unique:true,allowNull:false},
     login:{type:DataTypes.STRING,unique:true,allowNull:false},
     username:{type:DataTypes.STRING,allowNull:false}
@@ -47,19 +47,13 @@ const ChatMessage = sequelize.define('chat_message',{
     dataLink:{type:DataTypes.STRING,unique:true,allowNull:false},
 });
 
-const CommunityTypes = sequelize.define('community_types',{
-    id:{type:DataTypes.INTEGER,unique:true,autoIncrement:true,allowNull:false,primaryKey:true}
-})
 const Type = sequelize.define('type',{
     id:{type:DataTypes.INTEGER,unique:true,autoIncrement:true,allowNull:false,primaryKey:true},
     name:{type:DataTypes.STRING,unique:true,allowNull:false}
 })
 
-Community.hasOne(CommunityTypes);
-CommunityTypes.belongsTo(Community);
-
-CommunityTypes.hasMany(Type);
-Type.belongsTo(CommunityTypes);
+Community.hasMany(Type);
+Type.belongsTo(Community);
 
 ChatGroup.hasMany(ChatFollower);
 ChatFollower.belongsTo(ChatGroup);
@@ -111,6 +105,5 @@ module.exports = {
     ChatGroup,
     ChatFollower,
     ChatMessage,
-    CommunityTypes,
     Type
 }

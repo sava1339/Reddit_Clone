@@ -1,12 +1,30 @@
 import { ApiError } from "../apiError/apiError";
 const {Comment} = require('../models/models');
 import {Request, Response, NextFunction} from 'express';
+import { filesRequest } from "../types/types";
+const uuid = require('uuid');
+const path = require('path');
+const fs = require('fs');
 
 class CommentController{
     async create(req:Request,res:Response,next:NextFunction){
         try {
-            const {userId,communityId,dataLink} = req.body;
-            !userId || !communityId || !dataLink && next(ApiError.bedRequest('Не все поля заполнены!'));
+            const {userId,communityId,content} = req.body;
+            const files = (req as filesRequest).files;
+            !userId || !communityId || !content && next(ApiError.bedRequest('Не все поля заполнены!'));
+
+            const dataLink = uuid.v4();
+            const dataLinkPath = path.resolve(__dirname,'..','static','CommentDataFolder',dataLink);
+            const dataLinkImagePath = dataLinkPath + '\\' + 'media';
+
+            if (!fs.existsSync(dataLinkPath)) {
+                fs.mkdirSync(dataLinkPath);
+                fs.mkdirSync(dataLinkImagePath);
+            }
+            fs.writeFileSync((dataLinkPath + '\\' + 'content') + '.txt', content);
+            for(let i = 0;i < files.lenght;i++){
+                await files[i].mv((dataLinkImagePath + '\\' + String(i)));
+            }
             const comment = await Comment.create({userId,communityId,dataLink});
             return res.json({comment});
         } catch (e) {

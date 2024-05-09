@@ -1,15 +1,35 @@
+import path from "path";
 import { ApiError } from "../apiError/apiError";
 const {ChatGroup} = require('../models/models');
 import {Request, Response, NextFunction} from 'express';
+import { filesRequest } from "../types/types";
+const uuid = require('uuid');
+const fs = require('fs');
 
 class ChatGroupController{
     async create(req:Request,res:Response,next:NextFunction){
         try {
-            let {dataLink,chatGroupUser,userId} = req.body;
+            let {name,description,chatGroupUser,userId} = req.body;
+            const {groupAvatar} = (req as filesRequest).files;
+
             if(typeof userId == "string"){
                 userId = +userId;
             }
-            !dataLink || !chatGroupUser && next(ApiError.bedRequest('Не все поля заполнены!'));
+            !name || !groupAvatar || !description || !chatGroupUser && next(ApiError.bedRequest('Не все поля заполнены!'));
+            const dataLink = uuid.v4();
+
+            const dataLinkPath = path.resolve(__dirname,'..','static','ChatGroupDataFolder',dataLink);
+
+            if (!fs.existsSync(dataLinkPath)) {
+                fs.mkdirSync(dataLinkPath);
+            }
+            fs.writeFileSync((dataLinkPath + '\\' + 'name') + '.txt', name);
+            fs.writeFileSync((dataLinkPath + '\\' + 'description') + '.txt', description);
+            if(groupAvatar){
+                let imageGroupAvatarName = 'GroupAvatar.png';
+                await groupAvatar.mv((dataLinkPath + '\\' + imageGroupAvatarName));
+            }
+
             const chatGroup = await ChatGroup.create({dataLink,chatGroupUser,userId});
             return res.json(chatGroup);
         } catch (e) {
