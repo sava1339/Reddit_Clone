@@ -1,0 +1,39 @@
+.see_more_button:hover{
+    background: #28354f;
+}
+.popular_community_item:hover{
+    background: #28354f;
+}
+.select_sort:hover{
+    background: #28354f;
+}
+.post_box:hover{
+    background: #192131;
+}
+.up_rate_icon_box:hover{
+    background: #4b576d;
+}
+.up_rate_icon_box:hover svg{
+    fill: rgb(236, 26, 26) !important;
+}
+.down_rate_icon_box:hover{
+    background: #4b576d;
+}
+.down_rate_icon_box:hover svg{
+    fill: rgb(96, 99, 236) !important;
+}
+.post_rate_count:hover{
+    cursor: auto !important;
+}
+.comment:hover{
+    background: #4b576d;
+}
+.share:hover{
+    background: #4b576d;
+}
+.join_button:hover{
+    background-color: rgb(55, 108, 206);
+}
+.post_more:hover{
+    background: #4b576d;
+}

@@ -8,10 +8,11 @@ import redditTitle from '../assets/redditTitle.svg';
 import trand from '../assets/trand.svg';
 import { useAppDispatch, useAppSelector } from '../types/reduxTypes';
 import { setSearchInputFocus } from '../reducers/toggleReducer';
+import { placeholderImage } from '../consts/consts';
 
 export default function Header() {
     //consts
-  const placeholderImage = "placeholder.png";
+  
   const [searchText,setSearchText] = useState("");
   const dispatch = useAppDispatch();
   const searchInputFocus = useAppSelector(state => state.toggleBools.searchInputFocus);
@@ -51,11 +52,11 @@ export default function Header() {
                         <p className='text-[13px] font-[600] text-gray-100'>Заголовок новости</p>
                         <p className='text-[12px]  text-gray-200'>Описание новости</p>
                         <div className='flex items-center mt-[8px]'>
-                          <div style={{backgroundImage:`url(${placeholderImage})`, backgroundSize:"cover", backgroundPosition:"center"}} className='h-[15px] mr-[4px] w-[15px] rounded-2xl bg-slate-400'></div>
-                          <p className='text-[11px] text-gray-400'>r/community</p>
+                          <div style={{backgroundImage:`url(${placeholderImage})`, backgroundSize:"cover", backgroundPosition:"center"}} className='h-[15px] mr-[4px] w-[15px] rounded-2xl'></div>
+                          <p className='text-[11px] text-gray-400'>r/community and more</p>
                         </div>
                       </div>
-                      <div style={{backgroundImage:`url(${placeholderImage})`, backgroundSize:"cover", backgroundPosition:"center"}} className='h-[60px] w-[90px] rounded bg-slate-400'></div>
+                      <div style={{backgroundImage:`url(${placeholderImage})`, backgroundSize:"cover", backgroundPosition:"center"}} className='h-[60px] w-[90px] rounded'></div>
                     </div>
                   </div>
                 </div>
