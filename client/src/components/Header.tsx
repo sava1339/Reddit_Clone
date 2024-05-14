@@ -5,16 +5,18 @@ import qrcode from '../assets/qrcode.svg';
 import more from '../assets/more.svg';
 import redditLogo from '../assets/reddit.svg';
 import redditTitle from '../assets/redditTitle.svg';
+import openMenuIcon from '../assets/openMenu.svg'
 import trand from '../assets/trand.svg';
 import { useAppDispatch, useAppSelector } from '../types/reduxTypes';
-import { setSearchInputFocus } from '../reducers/toggleReducer';
+import { setOpenMenu, setSearchInputFocus } from '../reducers/toggleReducer';
 import { placeholderImage } from '../consts/consts';
 
 export default function Header() {
     //consts
-  
+  const hideMenu = useAppSelector(state=>state.toggleBools.hideMenu);
   const [searchText,setSearchText] = useState("");
   const dispatch = useAppDispatch();
+  const openMenu = useAppSelector(state => state.toggleBools.openMenu);
   const searchInputFocus = useAppSelector(state => state.toggleBools.searchInputFocus);
 
   //functions
@@ -27,9 +29,13 @@ export default function Header() {
   const handleSearchInputFocus = ()=>{
     dispatch(setSearchInputFocus(true));
   }
+  const handleSetOpenMenu = () =>{
+    dispatch(setOpenMenu(!openMenu))
+  }
   return (
     <header className='sticky top-0 bg-gray-900 flex justify-between items-center w-[calc(100%-16px)] mx-[8px] py-[8px] px-[8px] border-gray-600 border-b-[1px] ' >
           <div className='flex items-center '>
+            {hideMenu && <img onClick={handleSetOpenMenu} className='h-[21px] hover_effect mr-2 ' src={openMenuIcon} alt="" />}
             <img className='w-[30px] mr-[6px] ' src={redditLogo} alt="" />
             <img className='h-[22px]' src={redditTitle} alt="" />
           </div>

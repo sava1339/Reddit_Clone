@@ -9,10 +9,10 @@ import { filesRequest, userRequest } from "../types/types";
 class CommunityController{
     async create(req:Request,res:Response,next:NextFunction){
         try {
-            const {userCommunity,description} = req.body;
+            const {userCommunity,description,title} = req.body;
             const {avatarImage,headerImage} = (req as filesRequest).files;
 
-            !description || !userCommunity || !(req as userRequest).user.id && next(ApiError.bedRequest('Не все поля заполнены!'));
+            !description || !title || !userCommunity || !(req as userRequest).user.id && next(ApiError.bedRequest('Не все поля заполнены!'));
 
             const dataLink = uuid.v4();
             const dataLinkPath = path.resolve(__dirname,'..','static','CommunityDataFolder',dataLink);
@@ -34,7 +34,7 @@ class CommunityController{
             }
             const userCommunityBool = userCommunity === "true" ? true : false
 
-            const community = await Community.create({dataLink,userCommunity: userCommunityBool,userId:(req as userRequest).user.id});
+            const community = await Community.create({dataLink,title,userCommunity: userCommunityBool,userId:(req as userRequest).user.id});
             return res.json(community);
         } catch (e) {
             next(ApiError.internal('Непредвидимая ошибка'));

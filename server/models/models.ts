@@ -12,6 +12,7 @@ const User = sequelize.define('user',{
 
 const Community = sequelize.define('community',{
     id:{type:DataTypes.INTEGER,unique:true,autoIncrement:true,allowNull:false,primaryKey:true},
+    title:{type:DataTypes.CHAR(24),unique:true},
     dataLink:{type:DataTypes.STRING,unique:true,allowNull:false},
     userCommunity:{type:DataTypes.BOOLEAN,allowNull:false}
 });

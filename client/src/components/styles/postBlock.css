@@ -1,0 +1,10 @@
+.post_image{
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+.post_image_back{
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
